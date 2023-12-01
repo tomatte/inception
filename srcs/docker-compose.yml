@@ -2,7 +2,7 @@ version: '3.0'
 
 services:
   mariadb:
-    build: ./MariaDB/
+    build: ./requirements/mariadb/
     container_name: mariadb
     environment:
       - MARIADB_USER=dbrandao
@@ -11,3 +11,12 @@ services:
       - DB_ROOT_PASSWORD=toor
     ports:
       - 3307:3306
+
+
+  nginx:
+    build: ./requirements/nginx
+    container_name: nginx
+    volumes:
+      - ./requirements/nginx/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - 3000:80
