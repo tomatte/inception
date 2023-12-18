@@ -16,3 +16,5 @@ stop:
 down: stop
 
 re: down up
+
+reb: down build
