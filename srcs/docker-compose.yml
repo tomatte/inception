@@ -26,15 +26,18 @@ services:
   #     - inception
 
 
-  # wordpress:
-  #   build: ./requirements/wordpress
-  #   container_name: wordpress
-  #   ports:
-  #     - 3005:80
-  #   depends_on:
-  #     - mariadb
-  #   networks:
-  #     - inception
+  wordpress:
+    build: ./requirements/wordpress
+    container_name: wordpress
+    ports:
+      - 3005:80
+    depends_on:
+      - mariadb
+    networks:
+      - inception
+    env_file:
+      - ./requirements/wordpress/.env
+    
 
 networks:
   inception:
