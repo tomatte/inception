@@ -1,0 +1,46 @@
+version: '3.0'
+
+services:
+  wordpress:
+    build: ./requirements/wordpress
+    container_name: test-wp
+    ports:
+      - 4000:9000
+    env_file:
+      - ./.env
+    networks:
+      - test-inception
+    volumes:
+      - socket-file:/run/php
+      - index-file:/var/www/wordpress
+
+  mariadb:
+    build: ./requirements/mariadb
+    container_name: test-mariadb
+    environment:
+      - MARIADB_USER=dbrandao
+      - MARIADB_PASSWORD=notsecret123
+      - MARIADB_DATABASE=mary
+      - DB_ROOT_PASSWORD=toor
+    networks:
+      - test-inception
+
+  nginx:
+    build: ./requirements/nginx
+    container_name: test-nginx
+    networks:
+      - test-inception
+    ports:
+      - 4001:80
+      - 4002:9000
+    volumes:
+      - socket-file:/run/php
+      - index-file:/var/www/wordpress
+
+networks:
+  test-inception:
+
+volumes:
+  socket-file:
+  index-file:
+  
