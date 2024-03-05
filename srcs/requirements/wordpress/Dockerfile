@@ -14,7 +14,7 @@ WORKDIR /var/www/wordpress
 
 RUN wp core download --allow-root
 
-COPY ./setup.sh /home/tools/setup.sh
+COPY ./tools/setup.sh /home/tools/setup.sh
 
 RUN chmod +x /home/tools/setup.sh
 
