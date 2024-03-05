@@ -1,11 +1,19 @@
 #!/bin/bash
 
-sleep 10
+while ! mysql --user=root --host=mariadb --password=$DB_ROOT_PASSWORD -e "status" &> /dev/null ; do
+    echo "Waiting for database connection..."
+    sleep 1
+done
 
-wp config create --dbname=$DB_NAME --dbuser=root --dbhost=$DB_HOST --dbpass=$DB_ROOT_PASSWORD --allow-root
+if [[ ! -f /var/www/wordpress/wp-config.php ]]; then
+    echo running wordpress configuration
+    wp config create --dbname=$DB_NAME --dbuser=root --dbhost=$DB_HOST --dbpass=$DB_ROOT_PASSWORD --allow-root
+    wp core install --url=dbrandao.42.fr --title="Inception" --admin_user=dbrandao --admin_password=superhero --admin_email=dbrandao@gmail.com --allow-root
+    wp theme install inspiro --activate --allow-root
+    wp plugin update --all --allow-root
+fi
 
-chown -R www-data:www-data /var/www/html/wordpress/
+echo FINISHED WP OPERATIONS
+echo php-fpm start!
 
-wp core install --url=inception.dev --title="Inception" --admin_user=dbrandao --admin_password=superhero --admin_email=dbrandao@gmail.com --allow-root
-
-wp shell --allow-root
+php-fpm7.4

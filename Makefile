@@ -1,20 +1,22 @@
-.PHONY: 
-
-DIR		=	./srcs
+DOCKER = docker compose -f ./srcs/docker-compose.yml
 
 up:
-	docker compose -f $(DIR)/docker-compose.yml up
+	$(DOCKER) up
+
+build:
+	$(DOCKER) up --build
 
 all: up
 
-build:
-	docker compose -f $(DIR)/docker-compose.yml up --build
-
-stop:
-	docker compose -f $(DIR)/docker-compose.yml down
-
-down: stop
+down:
+	$(DOCKER) down
 
 re: down up
 
-reb: down build
+rr: down build
+
+wp:
+	docker exec -it test-wp bash
+
+ng:
+	docker exec -it test-nginx bash

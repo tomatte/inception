@@ -1,44 +1,43 @@
 version: '3.0'
 
 services:
+  wordpress:
+    build: ./requirements/wordpress
+    container_name: wordpress-42
+    env_file:
+      - ./.env
+    networks:
+      - inception-network
+    volumes:
+      - socket-file:/run/php
+      - index-file:/var/www/wordpress
+
   mariadb:
-    build: ./requirements/mariadb/
-    container_name: mariadb
+    build: ./requirements/mariadb
+    container_name: mariadb-42
     environment:
       - MARIADB_USER=dbrandao
       - MARIADB_PASSWORD=notsecret123
       - MARIADB_DATABASE=mary
       - DB_ROOT_PASSWORD=toor
-    ports:
-      - 3307:3306
     networks:
-      - inception
+      - inception-network
 
-
-  # nginx:
-  #   build: ./requirements/nginx
-  #   container_name: nginx
-  #   volumes:
-  #     - ./requirements/nginx/nginx.conf:/etc/nginx/nginx.conf
-  #   ports:
-  #     - 3000:80
-  #   networks:
-  #     - inception
-
-
-  wordpress:
-    build: ./requirements/wordpress
-    container_name: wordpress
-    ports:
-      - 3005:80
-    depends_on:
-      - mariadb
+  nginx:
+    build: ./requirements/nginx
+    container_name: nginx-42
     networks:
-      - inception
-    env_file:
-      - ./requirements/wordpress/.env
-    
+      - inception-network
+    ports:
+      - 4000:80
+    volumes:
+      - socket-file:/run/php
+      - index-file:/var/www/wordpress
 
 networks:
-  inception:
-    name: inception
+  inception-network:
+
+volumes:
+  socket-file:
+  index-file:
+  

@@ -1,12 +1,15 @@
 FROM debian:oldstable
 
-RUN apt update -y && \
-	apt install -y nginx && \
-	echo "\ndaemon off;" >> /etc/nginx/nginx.conf && \
-	chown -R www-data:www-data /var/lib/nginx
+RUN apt update -y && apt upgrade -y
 
-WORKDIR /etc/nginx
+RUN apt install nginx -y
 
-COPY . .
+RUN echo "\ndaemon off;" >> /etc/nginx/nginx.conf
+
+COPY ./conf/default /etc/nginx/sites-available/default
+
+RUN echo '<?php phpinfo() ?>' > /var/www/index.php && \
+	echo '<html><body><h1>HELLO BITCH!!!</h1></body> </html>' > /var/www/index.html
 
 CMD ["nginx"]
+
