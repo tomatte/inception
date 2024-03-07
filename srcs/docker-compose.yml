@@ -10,7 +10,7 @@ services:
       - inception-network
     volumes:
       - socket-file:/run/php
-      - index-file:/var/www/wordpress
+      - wordpress-files:/var/www/wordpress
 
   mariadb:
     build: ./requirements/mariadb
@@ -29,15 +29,15 @@ services:
     networks:
       - inception-network
     ports:
-      - 4000:80
+      - 443:443
     volumes:
       - socket-file:/run/php
-      - index-file:/var/www/wordpress
+      - wordpress-files:/var/www/wordpress
 
 networks:
   inception-network:
 
 volumes:
   socket-file:
-  index-file:
+  wordpress-files:
   
