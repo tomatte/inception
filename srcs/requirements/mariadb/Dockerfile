@@ -25,4 +25,6 @@ WORKDIR /home/app
 
 RUN chmod +x /home/app/setup.sh
 
+RUN echo 'datadir = /var/lib/mysql' >> /etc/mysql/my.conf
+
 ENTRYPOINT [ "/home/app/setup.sh" ]

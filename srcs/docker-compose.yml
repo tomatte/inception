@@ -4,40 +4,58 @@ services:
   wordpress:
     build: ./requirements/wordpress
     container_name: wordpress-42
+    depends_on:
+      - mariadb
+    restart: on-failure
     env_file:
       - ./.env
     networks:
       - inception-network
     volumes:
       - socket-file:/run/php
-      - wordpress-files:/var/www/wordpress
+      - wp-files:/var/www/wordpress
 
   mariadb:
     build: ./requirements/mariadb
     container_name: mariadb-42
+    restart: on-failure
     environment:
-      - MARIADB_USER=dbrandao
-      - MARIADB_PASSWORD=notsecret123
-      - MARIADB_DATABASE=mary
-      - DB_ROOT_PASSWORD=toor
+      - MARIADB_USER=${DB_USER}
+      - MARIADB_PASSWORD=${DB_PASSWORD}
+      - MARIADB_DATABASE=${DB_NAME}
+      - DB_ROOT_PASSWORD=${DB_ROOT_PASSWORD}
     networks:
       - inception-network
+    volumes:
+      - database:/var/lib/mysql
 
   nginx:
     build: ./requirements/nginx
     container_name: nginx-42
+    restart: on-failure
     networks:
       - inception-network
     ports:
       - 443:443
     volumes:
       - socket-file:/run/php
-      - wordpress-files:/var/www/wordpress
+      - wp-files:/var/www/wordpress
 
 networks:
   inception-network:
 
 volumes:
   socket-file:
-  wordpress-files:
+  wp-files:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: bind
+      device: '/home/suzy/Public/data/wordpress'
+  database:
+    driver: local
+    driver_opts:
+      type: 'none'
+      o: bind
+      device: '/home/suzy/Public/data/mariadb'
   

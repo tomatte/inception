@@ -15,8 +15,14 @@ re: down up
 
 rr: down build
 
+clean: down
+fclean: rr
+
 wp:
-	docker exec -it test-wp bash
+	docker exec -it wordpress-42 bash
 
 ng:
-	docker exec -it test-nginx bash
+	docker exec -it nginx-42 bash
+
+db:
+	docker exec -it mariadb-42 bash
