@@ -51,11 +51,11 @@ volumes:
     driver_opts:
       type: 'none'
       o: bind
-      device: '/home/suzy/Public/data/wordpress'
+      device: '${VOLUME_DIR}/wordpress'
   database:
     driver: local
     driver_opts:
       type: 'none'
       o: bind
-      device: '/home/suzy/Public/data/mariadb'
+      device: '${VOLUME_DIR}/mariadb'
   
