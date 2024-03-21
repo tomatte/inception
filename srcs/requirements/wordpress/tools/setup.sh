@@ -1,8 +1,8 @@
 #!/bin/bash
-
+sleep 4
 while ! mysql --user=root --host=mariadb --password=$DB_ROOT_PASSWORD -e "status" &> /dev/null ; do
     echo "Waiting for database connection..."
-    sleep 4
+	sleep 4
 done
 
 if [[ ! -f /var/www/wordpress/wp-config.php ]]; then

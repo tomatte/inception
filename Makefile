@@ -1,27 +1,35 @@
 DOCKER = docker compose -f ./srcs/docker-compose.yml
 
-volume_dir := $(shell grep 'VOLUME_DIR=' ./srcs/.env | cut -d '=' -f 2)
-
-create_volume_dirs:
-	mkdir -p $(volume_dir)/wordpress
-	mkdir -p $(volume_dir)/mariadb
-
-up:
-	$(DOCKER) up
-
-build: create_volume_dirs
-	$(DOCKER) up --build
+VOLUME_DIR := $(shell grep 'VOLUME_DIR=' ./srcs/.env | cut -d '=' -f 2)
 
 all: up
+
+create_volume_dirs:
+	mkdir -p $(VOLUME_DIR)/wordpress
+	mkdir -p $(VOLUME_DIR)/mariadb
+
+up: create_volume_dirs
+	$(DOCKER) up --build
+
 
 down:
 	$(DOCKER) down
 
+reload:
+	$(DOCKER) up nginx --build -d
+
+rwp:
+	$(DOCKER) up wordpress --build -d
+
 re: down up
 
-rr: down build
+rr: down up
 
 clean: down
+
+volumerm:
+	sudo rm -rf $(VOLUME_DIR)
+
 fclean: rr
 
 wp:

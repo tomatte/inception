@@ -3,9 +3,9 @@ FROM debian:oldstable
 WORKDIR /home/downloads
 
 RUN apt update -y && apt upgrade -y
-RUN apt install wget php php-curl php-fpm php-bcmath php-gd php-soap sendmail \
-	php-zip php-curl php-mbstring php-mysqlnd php-gd php-xml php-intl php-zip \
-	sudo mariadb-client -y
+
+RUN apt install wget php7.4 php7.4-curl php7.4-fpm php7.4-gd \
+	php-mbstring php7.4-xml mariadb-client php7.4-mysql -y
 
 RUN wget https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 RUN chmod +x ./wp-cli.phar && mv ./wp-cli.phar /usr/local/bin/wp
