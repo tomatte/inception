@@ -4,6 +4,11 @@ VOLUME_DIR := $(shell grep 'VOLUME_DIR=' ./srcs/.env | cut -d '=' -f 2)
 
 all: up
 
+upgrade:
+	@echo upgrading packages
+	@sudo apt update -y
+	@sudo apt upgrade -y
+
 create_volume_dirs:
 	mkdir -p $(VOLUME_DIR)/wordpress
 	mkdir -p $(VOLUME_DIR)/mariadb
