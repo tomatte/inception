@@ -48,13 +48,18 @@ networks:
 
 volumes:
   socket-file:
+    name: inception-socket-file
+
   wp-files:
+    name: inception-wp-files
     driver: local
     driver_opts:
       type: 'none'
       o: bind
       device: '${VOLUME_DIR}/wordpress'
+
   database:
+    name: inception-database
     driver: local
     driver_opts:
       type: 'none'

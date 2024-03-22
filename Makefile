@@ -21,16 +21,24 @@ reload:
 rwp:
 	$(DOCKER) up wordpress --build -d
 
+rdb:
+	$(DOCKER) up mariadb --build -d
+
+
 re: down up
 
 rr: down up
 
-clean: down
+fclean: down
+	docker volume rm inception-wp-files
+	docker volume rm inception-database
+	docker volume rm inception-socket-file
+	sudo rm -rf $(VOLUME_DIR)
+
+reset: fclean up
 
 volumerm:
 	sudo rm -rf $(VOLUME_DIR)
-
-fclean: rr
 
 wp:
 	docker exec -it wordpress-42 bash
