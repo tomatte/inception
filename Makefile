@@ -10,12 +10,11 @@ upgrade:
 	@sudo apt upgrade -y
 
 create_volume_dirs:
-	mkdir -p $(VOLUME_DIR)/wordpress
-	mkdir -p $(VOLUME_DIR)/mariadb
+	sudo mkdir -p $(VOLUME_DIR)/wordpress
+	sudo mkdir -p $(VOLUME_DIR)/mariadb
 
 up: create_volume_dirs
 	$(DOCKER) up --build
-
 
 down:
 	$(DOCKER) down
