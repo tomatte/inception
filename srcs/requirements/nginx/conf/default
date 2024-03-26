@@ -2,7 +2,7 @@ server {
 	listen 443 ssl;
 	listen [::]:443 ssl default ipv6only=on;
 
-	server_name dbrandao.42.fr;
+	server_name localhost;
 
 	ssl_certificate    /etc/nginx/crt.crt;
 	ssl_certificate_key /etc/nginx/key.key;

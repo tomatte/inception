@@ -1,6 +1,7 @@
 DOCKER = docker compose -f ./srcs/docker-compose.yml
 
 VOLUME_DIR := $(shell grep 'VOLUME_DIR=' ./srcs/.env | cut -d '=' -f 2)
+WP_URL := $(shell grep 'WP_URL=' ./srcs/.env | cut -d '=' -f 2)
 
 all: up
 
@@ -9,11 +10,12 @@ upgrade:
 	@sudo apt update -y
 	@sudo apt upgrade -y
 
-create_volume_dirs:
+setup:
 	sudo mkdir -p $(VOLUME_DIR)/wordpress
 	sudo mkdir -p $(VOLUME_DIR)/mariadb
+	sudo echo '127.0.0.1       $(WP_URL)' >> /etc/hosts
 
-up: create_volume_dirs
+up: setup
 	$(DOCKER) up --build
 
 down:
