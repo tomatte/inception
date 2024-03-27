@@ -11,9 +11,11 @@ upgrade:
 	@sudo apt upgrade -y
 
 setup:
+	sudo chmod 666 /etc/hosts
+	sudo echo '127.0.0.1       $(WP_URL)' >> /etc/hosts
+	sudo chmod 644 /etc/hosts
 	sudo mkdir -p $(VOLUME_DIR)/wordpress
 	sudo mkdir -p $(VOLUME_DIR)/mariadb
-	sudo echo '127.0.0.1       $(WP_URL)' >> /etc/hosts
 
 up: setup
 	$(DOCKER) up --build
